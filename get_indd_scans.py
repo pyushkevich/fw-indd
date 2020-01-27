@@ -63,10 +63,14 @@ def fw_parse_acq_dicom(acq, dicom_cache=None):
         # Return result
         return dcm, f
 
+    except (KeyboardInterrupt, SystemExit):
+        raise
+
     except (StopIteration):
         logging.warning('No DICOM files in acquisition %s' % acq.id)
         return None,None
-    except (flywheel.rest.ApiException):
+ 
+    except:
         logging.warning('FlyWheel API Exception in acquisition %s' % acq.id)
         return None,None
 
