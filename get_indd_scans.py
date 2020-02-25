@@ -160,6 +160,7 @@ modality_cols = {
         'FlywheelAcquisitionIntent',
         'FlywheelAcquisitionMeasurement',
         'FlywheelAcquisitionFeatures',
+        'FlywheelAcquisitionInternalID',
         'DicomModality',
         'DicomInstitutionName',
         'DicomStationName',
@@ -217,6 +218,7 @@ def make_output_text(sess, fw_acq, fw_file, dcm, column):
         'FlywheelSessionTimestampUTC' : sess['session_ts'],
         'FlywheelSessionInternalID' : fw_acq.parents.session,
         'FlywheelProjectInternalID' : fw_acq.parents.project,
+        'FlywheelAcquisitionInternalID' : fw_acq.id,
         'FlywheelAcquisitionLabel' : fw_acq.label,
         'FlywheelSessionURL' : "https://upenn.flywheel.io/#/projects/%s/sessions/%s?tab=data" % 
             (fw_acq.parents.project,fw_acq.parents.session)
@@ -355,8 +357,10 @@ def get_indd_scans(key, subject, header, modality, logfile, cache):
         csv_stream.writerow(columns)
 
     # Set up logging
-    if logging:
-        logging.basicConfig(filename=logfile, level=logging.DEBUG)
+    if logfile is not None:
+        logging.basicConfig(filename="%s" % (logfile,),level=logging.DEBUG)
+        logging.debug("Starting FW export, modality=%s" % modality)
+        logging.warning("Starting FW export, modality=%s" % modality)
 
     # Set up cache directory
     if cache:
