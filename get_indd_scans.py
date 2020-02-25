@@ -275,8 +275,11 @@ def fw_list_acq(csv_stream, client, modality, project_path, col_list, subject=No
     # This is a local cache for session properties
     sess_cache={}
 
+    # Load all the results in one shot
+    acq_list = client.acquisitions.find(fw_filter);
+
     # Use the filter to list acquisitions
-    for acq in client.acquisitions.iter_find(fw_filter):
+    for acq in acq_list:
 
         # Get the session for this acquisition
         sess_id = acq.parents.session
