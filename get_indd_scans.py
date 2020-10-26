@@ -110,14 +110,14 @@ def fn_filter_inddid(subject_name):
   z = re.search('^IND{1,2}(.*)$',subject_name)
   if z is not None:
     subject_name = z.group(1)
-
+	
   # Try basic 6-digit pattern
   z = re.search('^[0-9]{6}$',subject_name)
   if z is not None:
     return z.group()
 
   # Try 8-digit pattern
-  z = re.search('^([0-9]{6})[\._\-]([0-9]{2})$',subject_name)
+  z = re.search('^([0-9]{6})[\._\-x]([0-9]{2})$',subject_name)
   if z is not None:
     return '%s.%s' % (z.group(1), z.group(2))
 
@@ -276,7 +276,7 @@ def fw_list_acq(csv_stream, client, modality, project_path, col_list, subject=No
     sess_cache={}
 
     # Load all the results in one shot
-    acq_list = client.acquisitions.find(fw_filter);
+    acq_list = client.acquisitions.find(fw_filter, limit=10000000);
 
     # Use the filter to list acquisitions
     for acq in acq_list:
