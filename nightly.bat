@@ -1,0 +1,1 @@
+"C:\Program Files\Git\git-bash.exe" -c "bash /e/tk/flywheel/fw-indd/nightly.sh"
